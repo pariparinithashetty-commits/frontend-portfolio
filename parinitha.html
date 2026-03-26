@@ -3,343 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parinitha Shetty | Portfolio</title>
+    <title>Portfolio | RAGHAVENDRA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
-        /* --- CSS STYLES --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --bg: #05070a;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 152, 248, 0.3);
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
         }
 
         body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.05) 0%, transparent 20%);
+            color: var(--text-main);
+            margin: 0;
+            padding: 4rem 1rem;
             line-height: 1.6;
-            color: #333;
-            background-color: #f9f9f9;
-            scroll-behavior: smooth;
         }
 
-        /* Header & Navigation */
-        header {
-            background: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
+        .wrapper { max-width: 1000px; margin: 0 auto; }
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-        }
-
-        .nav-links li {
-            margin-left: 20px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #3498db;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* --- Elegant Profile Section --- */
+        .profile {
             text-align: center;
-            background: linear-gradient(135deg, #e0f7fa 0%, #fff 100%);
-            padding: 0 20px;
+            margin-bottom: 5rem;
         }
 
-        .hero-content h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-
-        .hero-content p {
-            font-size: 1.5rem;
-            color: #555;
-            margin-bottom: 20px;
-        }
-
-        .btn {
+        .img-container {
+            position: relative;
             display: inline-block;
-            background: #3498db;
-            color: #fff;
-            padding: 10px 30px;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background 0.3s;
+            margin-bottom: 1.5rem;
         }
 
-        .btn:hover {
-            background: #2980b9;
+        .profile-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--glass-border);
+            padding: 5px;
+            background: linear-gradient(var(--bg), var(--bg)) padding-box,
+                        linear-gradient(135deg, var(--accent), transparent) border-box;
         }
 
-        /* Sections General */
-        section {
-            padding: 80px 20px;
-            max-width: 1100px;
-            margin: 0 auto;
+        .profile h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive font size for longer names */
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -1px;
+            background: linear-gradient(to bottom, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 2.5rem;
-            color: #2c3e50;
+        .profile p { color: var(--accent); font-weight: 300; font-size: 1.1rem; letter-spacing: 3px; text-transform: uppercase; margin-top: 0.5rem; }
+
+        /* --- Certificate Section --- */
+        .section-header { text-align: left; margin-bottom: 2rem; border-left: 3px solid var(--accent); padding-left: 1rem; }
+        
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-bottom: 6rem;
         }
 
-        /* About Section */
-        .about-container {
-            background: #fff;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            text-align: center;
+        .cert-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Education Section */
-        .education-card {
-            background: #fff;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-left: 5px solid #3498db;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        .cert-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px -10px var(--accent-glow);
+            transform: translateY(-8px);
         }
 
-        .education-card h3 {
-            color: #2c3e50;
+        .cert-img {
+            width: 100%;
+            border-radius: 12px;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            filter: grayscale(20%);
         }
 
-        .education-card span {
-            color: #7f8c8d;
-            font-size: 0.9rem;
-        }
+        .cert-card h4 { font-weight: 600; font-size: 1rem; margin: 0; color: var(--text-main); }
 
-        /* Contact Section */
+        /* --- Contact Form Section --- */
         .contact-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 40px;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            align-items: center;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 3rem;
+            border-radius: 30px;
         }
 
-        .contact-info, .contact-form {
-            flex: 1;
-            min-width: 300px;
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+        .contact-info h2 { font-size: 2.2rem; margin-bottom: 1rem; }
+        .contact-info p { color: var(--text-dim); }
 
-        .contact-info p {
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-
-        .contact-info i {
-            margin-right: 10px;
-            color: #3498db;
-        }
-
-        form input, form textarea {
+        .form-group { margin-bottom: 1.5rem; }
+        
+        input, textarea {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-
-        form textarea {
-            height: 120px;
-            resize: vertical;
-        }
-
-        form button {
-            width: 100%;
-            padding: 12px;
-            background: #3498db;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            padding: 1rem;
+            border-radius: 12px;
             color: #fff;
+            font-family: 'Outfit';
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent);
+            color: #000;
             border: none;
-            border-radius: 5px;
-            font-size: 1.1rem;
+            border-radius: 12px;
+            font-weight: 700;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        form button:hover {
-            background: #2980b9;
+        button:hover {
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: scale(1.02);
         }
 
-        /* Footer */
-        footer {
-            background: #2c3e50;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-        }
+        #status { margin-top: 1rem; text-align: center; font-weight: 400; }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-            
-            .nav-links {
-                display: none; /* Simple hide for mobile in this basic version */
-            }
-            
-            nav {
-                justify-content: center;
-            }
+            .contact-container { grid-template-columns: 1fr; padding: 2rem; }
+            .profile h1 { font-size: 1.8rem; }
         }
     </style>
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Header -->
-    <header>
-        <nav>
-            <div class="logo">Parinitha Shetty</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+<div class="wrapper">
+    
+    <header class="profile">
+        <div class="img-container">
+            <img src="WhatsApp Image 2026-03-23 at 6.08.43 PM.jpeg"alt="RAGHAVENDRA TRIPATHI" class="profile-img">
+        </div>
+        <h1>RAGHAVENDRA TRIPATHI</h1>
+        <p>Full-Stack Developer</p>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Hi, I'm Parinitha Shetty</h1>
-            <p>1st Year BCA Cloud Computing Student</p>
-            <p>Kristu Jayanti Deemed to be University</p>
-            <br>
-            <a href="#contact" class="btn">Get in Touch</a>
+    <div class="section-header">
+        <h3 style="margin:0; text-transform: uppercase; letter-spacing: 1px;">Certifications</h3>
+    </div>
+    
+    <div class="cert-grid">
+        <div class="cert-card">
+            <img src="JAVA.jpeg" alt="Certificate" class="cert-img">
+            <h4>JAVA SCRIPT</h4>
         </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about">
-        <h2>About Me</h2>
-        <div class="about-container">
-            <p>
-                Hello! I am a dedicated and enthusiastic 1st-year student pursuing Bachelor of Computer Applications (BCA) with a specialization in <strong>Cloud Computing</strong> at Kristu Jayanti Deemed to be University. 
-                <br><br>
-                I have a keen interest in technology, web development, and cloud technologies. I am eager to learn new skills and apply my knowledge to real-world projects. I am currently building my foundation in programming and cloud infrastructure.
-            </p>
+        <div class="cert-card">
+            <img src="FRONT.jpeg" alt="Certificate" class="cert-img">
+            <h4>FRONTEND DEVELOPER</h4>
         </div>
-    </section>
-
-    <!-- Education Section -->
-    <section id="education">
-        <h2>Education</h2>
-        <div class="education-card">
-            <h3>Bachelor of Computer Applications (BCA) - Cloud Computing</h3>
-            <span>Kristu Jayanti Deemed to be University</span>
-            <p><strong>Year:</strong> 1st Year</p>
-            <p>Currently studying subjects related to Computer Science, Data Structures, and Introduction to Cloud Computing.</p>
+        <div class="cert-card">
+            <img src="AWS.jpeg" alt="Certificate" class="cert-img">
+            <h4>AWS CLOUD FOUNDATION</h4>
         </div>
-    </section>
+        <div class="cert-card">
+            <img src="GIT.jpeg" alt="Certificate" class="cert-img">
+            <h4>GIT GITHUB</h4>
+        </div>
+    </div>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <h2>Contact Me</h2>
-        <div class="contact-container">
-            <!-- Contact Info -->
-            <div class="contact-info">
-                <h3>Let's Connect</h3>
-                <p><i class="fas fa-envelope"></i> pariparinithashetty@gmail.com</p>
-                <p><i class="fas fa-phone"></i> +91 8310105470</p>
-                <p><i class="fas fa-university"></i> Kristu Jayanti Deemed to be University</p>
+    <div class="contact-container">
+        <div class="contact-info">
+            <h2>Let's Talk.</h2>
+            <p>I am always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
+        </div>
+
+        <form id="portfolioForm">
+            <div class="form-group">
+                <input type="text" id="name" placeholder="Name" required>
             </div>
-
-            <!-- Contact Form -->
-            <div class="contact-form">
-                <h3>Send a Message</h3>
-                <form id="contactForm">
-                    <input type="text" id="name" placeholder="Your Name" required>
-                    <input type="email" id="email" placeholder="Your Email" required>
-                    <textarea id="message" placeholder="Your Message" required></textarea>
-                    <button type="submit">Send Message</button>
-                </form>
+            <div class="form-group">
+                <input type="email" id="email" placeholder="Email" required>
             </div>
-        </div>
-    </section>
+            <div class="form-group">
+                <textarea id="message" placeholder="Message" rows="4" required></textarea>
+            </div>
+            <button type="submit" id="submitBtn">Send Message</button>
+            <div id="status"></div>
+        </form>
+    </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 Parinitha Shetty. All Rights Reserved.</p>
-    </footer>
+</div>
 
-    <!-- JavaScript -->
-    <script>
-        // --- JAVASCRIPT FUNCTIONALITY ---
+<script>
+    // Replace these with your actual Supabase credentials
+    const SUPABASE_URL = 'https://jrhwkcprozntpxzxvygh.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpyaHdrY3Byb3pudHB4enh2eWdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyNjgyMDcsImV4cCI6MjA4OTg0NDIwN30.Q91sH2FwgfY1G1Ow4EyvSLEAC_FetGiVw9dgk_VWM0o';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Handle Contact Form Submission
-        document.getElementById('contactForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the actual page reload
+    const form = document.getElementById('portfolioForm');
+    const btn = document.getElementById('submitBtn');
+    const status = document.getElementById('status');
 
-            // Get values
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            
-            // Simple validation check (HTML 'required' handles most of it)
-            if(name && email) {
-                // Simulate sending data
-                alert(`Thank you, ${name}! Your message has been sent successfully.\n\nI will contact you at ${email} shortly.`);
-                
-                // Reset the form
-                this.reset();
-            } else {
-                alert('Please fill in all fields.');
-            }
-        });
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.innerText = "Processing...";
 
-        // Smooth Scroll for Navigation (Optional fallback)
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
+        const { error } = await _supabase.from('feedback').insert([{
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            message: document.getElementById('message').value
+        }]);
+
+        btn.disabled = false;
+        btn.innerText = "Send Message";
+
+        if (error) {
+            status.style.color = "#ff4d4d";
+            status.innerText = "Error encountered. Try again.";
+        } else {
+            status.style.color = "#38bdf8";
+            status.innerText = "Message delivered gracefully.";
+            form.reset();
+            setTimeout(() => { status.innerText = ""; }, 5000);
+        }
+    });
+</script>
 
 </body>
 </html>
