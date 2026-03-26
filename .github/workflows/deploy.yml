@@ -1,0 +1,26 @@
+name: Portfolio CI/CD
+
+on:
+  push:
+    branches: [ "main" ]  # Runs every time you push to the main branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Form Validation Check
+        run: |
+          echo "Running basic syntax checks..."
+          # This is where you'd run 'npm test' if you had a React/Node app
+          # For plain HTML, we just confirm the files exist
+          test -f index.html && echo "index.html found"
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+            folder: . # The folder the action should deploy.
+            branch: gh-pages # The branch the action should deploy to.
